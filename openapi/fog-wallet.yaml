@@ -1,0 +1,105 @@
+openapi: 3.0.3
+info:
+  title: fog-wallet
+  version: 0.0.1
+  description: Backend API for MobileCoin wallet transaction.
+  license:
+    name: GPLv3
+    url: https://www.gnu.org/licenses/gpl-3.0.en.html
+paths:
+  /accounts:
+    get:
+      description: "Returns all accounts"
+      responses:
+        '200':
+          description: list of all account objects
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Account'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      description: Create an account
+      requestBody:
+        description: New Account
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewAccount'
+      responses:
+        '200':
+          description: Account create response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+components:
+  schemas:
+    NewAccount:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: |-
+            Display name for the account.
+    Account:
+      allOf:
+        - $ref: '#/components/schemas/NewAccount'
+        - type: object
+          properties:
+            ID:
+              type: integer
+              format: int64
+              description: Unique ID of account.
+              x-oapi-codegen-extra-tags:
+                gorm: primarykey
+            accountID:
+              type: string
+              description: |-
+                Unique identifier for the account. Constructed from the public key materials of the account key.
+            test:
+              type: string
+              description: I'm testing live updates
+            test2:
+              type: integer
+              format: int64
+              description: rad
+    Error:
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+          description: Error code
+        message:
+          type: string
+          description: Error message
+        # keyDerivationVersion:
+        #   type: string
+        # mainAddress:
+        #   type: string
+        # nextSubaddressIndex:
+        #   type: string
+        # nextBlockIndex:
+        #   type: string
+        # recoveryMode:
+        #   type: string

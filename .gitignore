@@ -12,4 +12,6 @@
 *.out
 
 # Dependency directories (remove the comment below to include it)
-# vendor/
+vendor/
+fog-wallet
+fog-wallet.db

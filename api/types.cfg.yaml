@@ -1,0 +1,6 @@
+# Configuration file for oapi-codegen
+output:
+  fog-wallet-types.gen.go
+generate:
+  - types
+package: api

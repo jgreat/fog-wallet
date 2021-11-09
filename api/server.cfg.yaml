@@ -1,0 +1,7 @@
+# Configuration file for oapi-codegen
+output:
+  fog-wallet-server.gen.go
+generate:
+  - server
+  - spec
+package: api
